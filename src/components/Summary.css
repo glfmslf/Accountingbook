@@ -1,0 +1,234 @@
+/* 月度收支概况组件样式 - 卡片式设计 */
+
+.summary-container {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+/* 月份选择器 */
+.month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.nav-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+.current-month {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+
+.current-month:hover {
+  background: var(--bg-primary);
+}
+
+.back-to-current {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--primary);
+  margin-top: 2px;
+}
+
+/* 统计卡片网格 */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: 16px 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.summary-card.income .card-value {
+  color: var(--success);
+}
+
+.summary-card.expense .card-value {
+  color: var(--danger);
+}
+
+.summary-card.balance .card-value {
+  color: var(--primary);
+}
+
+.summary-card.balance .card-value.negative {
+  color: var(--danger);
+}
+
+/* 总余额显示 */
+.total-balance {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.balance-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.balance-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.balance-value.negative {
+  color: #fca5a5;
+}
+
+/* 支出分类明细 */
+.category-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.details-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-amount {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.category-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-bar {
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius: 4px;
+  min-width: 4px;
+  transition: width 0.3s ease;
+}
+
+.category-percentage {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 45px;
+  text-align: right;
+}
+
+/* 无数据提示 */
+.no-data {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* 响应式 */
+@media (max-width: 400px) {
+  .summary-cards {
+    gap: 8px;
+  }
+
+  .card-value {
+    font-size: 18px;
+  }
+
+  .balance-value {
+    font-size: 20px;
+  }
+}

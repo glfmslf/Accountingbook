@@ -1,0 +1,67 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "记账本" [level=1] [ref=e5]
+    - paragraph [ref=e6]: 轻量级个人财务管理工具
+  - main [ref=e7]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - button "上个月" [ref=e11] [cursor=pointer]: <
+        - generic [ref=e12] [cursor=pointer]: 2026年4月
+        - button "下个月" [ref=e13] [cursor=pointer]: ">"
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: 本月收入
+          - generic [ref=e17]: "0.00"
+        - generic [ref=e18]:
+          - generic [ref=e19]: 本月支出
+          - generic [ref=e20]: "0.00"
+        - generic [ref=e21]:
+          - generic [ref=e22]: 本月结余
+          - generic [ref=e23]: "0.00"
+      - generic [ref=e24]:
+        - generic [ref=e25]: 账户总余额
+        - generic [ref=e26]: "0.00"
+      - generic [ref=e27]: 本月暂无收支记录
+    - generic [ref=e29]:
+      - heading "记账" [level=2] [ref=e30]
+      - generic [ref=e31]:
+        - button "支出" [ref=e32] [cursor=pointer]
+        - button "收入" [ref=e33] [cursor=pointer]
+      - generic [ref=e34]:
+        - generic [ref=e35]: 金额 (元)
+        - textbox "金额 (元)" [ref=e36]:
+          - /placeholder: "0.00"
+      - generic [ref=e37]:
+        - generic [ref=e38]: 分类
+        - combobox "分类" [ref=e39]:
+          - option "请选择分类" [selected]
+          - option "餐饮"
+          - option "交通"
+          - option "购物"
+          - option "娱乐"
+          - option "医疗"
+          - option "教育"
+          - option "居住"
+          - option "通讯"
+          - option "其他"
+      - generic [ref=e40]:
+        - generic [ref=e41]: 日期
+        - textbox "日期" [ref=e42]: 2026-04-02
+      - generic [ref=e43]:
+        - generic [ref=e44]: 备注 (可选)
+        - textbox "备注 (可选)" [ref=e45]:
+          - /placeholder: 添加备注...
+        - generic [ref=e46]: 0/200
+      - generic [ref=e47]:
+        - button "保存" [ref=e48] [cursor=pointer]
+        - button "重置" [ref=e49] [cursor=pointer]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - heading "收支记录" [level=2] [ref=e53]
+        - generic [ref=e54]: 0 条记录
+      - generic [ref=e55]:
+        - generic [ref=e56]: 📝
+        - generic [ref=e57]: 暂无记录
+        - generic [ref=e58]: 点击上方表单添加第一笔记录吧
+  - contentinfo [ref=e59]:
+    - paragraph [ref=e60]: 数据仅保存在本地浏览器中
