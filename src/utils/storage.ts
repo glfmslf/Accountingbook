@@ -8,6 +8,29 @@ import { Record } from '../types';
 const STORAGE_KEY = 'accounting_book_records';
 
 /**
+ * 验证单条记录的数据完整性
+ * @param record 待验证的记录对象
+ * @returns 是否为有效记录
+ */
+function isValidRecord(record: unknown): record is Record {
+  if (!record || typeof record !== 'object') return false;
+  const r = record as Record;
+
+  return (
+    typeof r.id === 'string' &&
+    (r.type === 'income' || r.type === 'expense') &&
+    typeof r.amount === 'number' &&
+    r.amount >= 0 &&
+    typeof r.categoryId === 'string' &&
+    typeof r.date === 'string' &&
+    /^\d{4}-\d{2}-\d{2}$/.test(r.date) &&
+    typeof r.note === 'string' &&
+    typeof r.createdAt === 'number' &&
+    typeof r.updatedAt === 'number'
+  );
+}
+
+/**
  * 从localStorage加载记录
  * @returns 记录数组，如果读取失败返回空数组
  */
@@ -17,7 +40,16 @@ export const loadRecords = (): Record[] => {
     if (!data) {
       return [];
     }
-    const records = JSON.parse(data) as Record[];
+    const parsed = JSON.parse(data);
+    if (!Array.isArray(parsed)) {
+      console.error('数据格式错误: records 不是数组');
+      return [];
+    }
+    // 过滤并验证每条记录
+    const records = parsed.filter(isValidRecord);
+    if (records.length !== parsed.length) {
+      console.warn(`数据验证: ${parsed.length - records.length} 条无效记录被忽略`);
+    }
     return records;
   } catch (error) {
     console.error('从localStorage加载数据失败:', error);

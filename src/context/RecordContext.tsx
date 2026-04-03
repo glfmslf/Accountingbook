@@ -117,37 +117,33 @@ export function RecordProvider({ children }: { children: React.ReactNode }) {
    * 获取指定月份的汇总数据
    */
   const getMonthlySummary = useCallback((year: number, month: number): MonthlySummary => {
-    // 筛选指定月份的记录
-    const monthRecords = state.records.filter(record => {
+    // 一次遍历计算所有汇总数据
+    let totalIncome = 0;
+    let totalExpense = 0;
+    const expenseMap = new Map<string, number>();
+    const incomeMap = new Map<string, number>();
+
+    state.records.forEach(record => {
       const recordDate = new Date(record.date);
-      return recordDate.getFullYear() === year && recordDate.getMonth() + 1 === month;
+      if (recordDate.getFullYear() === year && recordDate.getMonth() + 1 === month) {
+        if (record.type === 'income') {
+          totalIncome += record.amount;
+          incomeMap.set(record.categoryId, (incomeMap.get(record.categoryId) || 0) + record.amount);
+        } else {
+          totalExpense += record.amount;
+          expenseMap.set(record.categoryId, (expenseMap.get(record.categoryId) || 0) + record.amount);
+        }
+      }
     });
-
-    // 计算总收入和总支出
-    const totalIncome = monthRecords
-      .filter(r => r.type === 'income')
-      .reduce((sum, r) => sum + r.amount, 0);
-
-    const totalExpense = monthRecords
-      .filter(r => r.type === 'expense')
-      .reduce((sum, r) => sum + r.amount, 0);
 
     // 计算各分类汇总
     const calculateCategorySummary = (
-      records: Record[],
+      summaryMap: Map<string, number>,
       type: 'income' | 'expense',
       total: number
     ): CategorySummary[] => {
       const categories = getAllCategories(type);
       const categoryMap = new Map(categories.map(c => [c.id, c.name]));
-
-      const summaryMap = new Map<string, number>();
-      records
-        .filter(r => r.type === type)
-        .forEach(r => {
-          const current = summaryMap.get(r.categoryId) || 0;
-          summaryMap.set(r.categoryId, current + r.amount);
-        });
 
       const result: CategorySummary[] = [];
       summaryMap.forEach((amount, categoryId) => {
@@ -169,8 +165,8 @@ export function RecordProvider({ children }: { children: React.ReactNode }) {
       totalIncome,
       totalExpense,
       balance: totalIncome - totalExpense,
-      expenseByCategory: calculateCategorySummary(monthRecords, 'expense', totalExpense),
-      incomeByCategory: calculateCategorySummary(monthRecords, 'income', totalIncome),
+      expenseByCategory: calculateCategorySummary(expenseMap, 'expense', totalExpense),
+      incomeByCategory: calculateCategorySummary(incomeMap, 'income', totalIncome),
     };
   }, [state.records]);
 

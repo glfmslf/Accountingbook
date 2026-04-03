@@ -77,11 +77,21 @@ export function Summary() {
     return selectedYear === current.year && selectedMonth === current.month;
   }, [selectedYear, selectedMonth]);
 
-  // 计算支出占比
-  const getExpensePercentage = (amount: number): string => {
-    if (monthlySummary.totalExpense === 0) return '0%';
-    return ((amount / monthlySummary.totalExpense) * 100).toFixed(1) + '%';
-  };
+  // 计算支出占比并缓存
+  const expensePercentages = useMemo(() => {
+    const map = new Map<string, string>();
+    if (monthlySummary.totalExpense === 0) {
+      monthlySummary.expenseByCategory.forEach(cat => {
+        map.set(cat.categoryId, '0%');
+      });
+    } else {
+      monthlySummary.expenseByCategory.forEach(cat => {
+        const pct = ((cat.amount / monthlySummary.totalExpense) * 100).toFixed(1) + '%';
+        map.set(cat.categoryId, pct);
+      });
+    }
+    return map;
+  }, [monthlySummary]);
 
   return (
     <div className="summary-container">
@@ -139,10 +149,10 @@ export function Summary() {
                 <div className="category-bar-wrapper">
                   <div
                     className="category-bar"
-                    style={{ width: getExpensePercentage(cat.amount) }}
+                    style={{ width: expensePercentages.get(cat.categoryId) }}
                   />
                   <span className="category-percentage">
-                    {getExpensePercentage(cat.amount)}
+                    {expensePercentages.get(cat.categoryId)}
                   </span>
                 </div>
               </div>

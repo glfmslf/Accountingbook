@@ -47,7 +47,7 @@ export function RecordForm({ editRecord, onEditComplete }: RecordFormProps) {
   const [type, setType] = useState<RecordType>('expense');
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [date, setDate] = useState(getTodayDate());
+  const [date, setDate] = useState(() => getTodayDate());
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');

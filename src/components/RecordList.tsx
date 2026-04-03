@@ -14,26 +14,29 @@ import './RecordList.css';
 /**
  * 按日期分组记录
  * @param records - 记录数组
- * @returns 分组后的记录Map，key为日期字符串
+ * @returns 分组后的记录Map，key为日期字符串（按日期倒序排列）
  */
 function groupRecordsByDate(records: Record[]): Map<string, Record[]> {
+  // 按日期分组
   const grouped = new Map<string, Record[]>();
-
-  // 按日期倒序排序
-  const sortedRecords = [...records].sort((a, b) => {
-    // 首先按日期倒序
-    const dateCompare = b.date.localeCompare(a.date);
-    if (dateCompare !== 0) return dateCompare;
-    // 然后按创建时间倒序
-    return b.createdAt - a.createdAt;
+  records.forEach(record => {
+    const existing = grouped.get(record.date);
+    if (existing) {
+      existing.push(record);
+    } else {
+      grouped.set(record.date, [record]);
+    }
   });
 
-  sortedRecords.forEach(record => {
-    const existing = grouped.get(record.date) || [];
-    grouped.set(record.date, [...existing, record]);
+  // 对每个分组内部按创建时间倒序排列
+  grouped.forEach((groupRecords) => {
+    groupRecords.sort((a, b) => b.createdAt - a.createdAt);
   });
 
-  return grouped;
+  // 按日期倒序排列（日期字符串可直接比较）
+  const sortedEntries = [...grouped.entries()].sort(([a], [b]) => b.localeCompare(a));
+
+  return new Map(sortedEntries);
 }
 
 export function RecordList() {
